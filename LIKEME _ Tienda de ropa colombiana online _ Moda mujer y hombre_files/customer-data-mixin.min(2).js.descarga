@@ -1,0 +1,3 @@
+define(["jquery","Magento_Customer/js/section-config","mage/utils/wrapper",],function($,sectionConfig,wrapper){"use strict";var mixin={onAjaxComplete:function(originFn,jsonResponse,settings){const self=this;if(settings?.type?.match(/post|put|delete/i)){const sections=sectionConfig.getAffectedSections(settings.url);if(!sections?.length)return;if(sections.length===1&&sections[0]==="messages"){setTimeout(()=>self.reload(sections,true),3000);return;}
+self.invalidate(sections);const redirects=["redirect","backUrl"];if(_.isObject(jsonResponse)&&!_.isEmpty(_.pick(jsonResponse,redirects)))
+return;self.reload(sections,true);}},};return function(target){return wrapper.extend(target,mixin);};});
